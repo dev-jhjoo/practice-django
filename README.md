@@ -1,12 +1,9 @@
 # practice-django
 
----
-
 for CI/CD django server
 
 # APIs
 
----
 
 ### board
 
