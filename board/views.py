@@ -19,7 +19,7 @@ def HTMLTemplate(article):
     return f'''
     <html>
         <body>
-            <h1><a href="/">Django</a></h1>
+            <h1><a href="/">Django practice page</a></h1>
             <ul>{li}</ul>
             {article}
             <ul>
