@@ -56,3 +56,11 @@ jobs:
         key: ${{ secrets.JH_PEM }}
         source: "release.zip"
         target: /home/ec2-user
+    - name: ssh command
+      uses: appleboy/ssh-action@v0.1.10
+      with:
+        host: ${{ secrets.EC2_HOST }}
+        username: ${{ secrets.USERNAME }}
+        key: ${{ secrets.JH_PEM }}
+        port: ${{ secrets.EC2_PORT }}
+        script: /home/ec2-user/deploy.sh
