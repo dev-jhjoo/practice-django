@@ -30,15 +30,8 @@ jobs:
       with:
         filename: release.zip
         path: .
-        directory: . # optional, default is .
-        # List of excluded files / directories
-#         exclusions: # optional, default is 
-        # List of excluded files / directories with recursive wildcards (only applies on Windows with `zip` type)
-#         recursive_exclusions: # optional, default is 
-        # Provide any custom parameters to the command
-#         custom: # optional, default is 
-        # Tool to use for archiving
-        type: zip # optional, default is zip
+        directory: .
+        type: zip
     - name: copy file via ssh key
       uses: appleboy/scp-action@v0.1.4
       with:
