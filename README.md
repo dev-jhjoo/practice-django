@@ -2,6 +2,8 @@
 
 for CI/CD django server
 
+
+
 # APIs
 
 
@@ -42,3 +44,10 @@ for CI/CD django server
   * 서버 상태 테스트를 위한 api
   * status에 원하는 HTTP staus code를 요청하면 해당 응답 제공
   * eg. actuator/healthcheck/400/ 요청시 400 에러 응답
+
+
+
+# Server Run
+
+> pip install -r requirements.txt \
+python manage.py runserver 
