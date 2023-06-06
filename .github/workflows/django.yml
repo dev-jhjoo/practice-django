@@ -67,7 +67,11 @@ jobs:
 
     # CodeDeploy execute
     - name: Code Deploy
-      run: aws deploy create-deployment --application-name $CODE_DEPLOY_APPLICATION_NAME --deployment-config-name CodeDeployDefault.OneAtATime --deployment-group-name $DEPLOYMENT_GROUP_NAME --s3-location bucket=$BUCKET_NAME,bundleType=zip,key=$PROJECT_NAME/release.zip
+      run: aws deploy create-deployment \
+        --application-name $CODE_DEPLOY_APPLICATION_NAME \
+        --deployment-config-name CodeDeployDefault.OneAtATime \
+        --deployment-group-name $DEPLOYMENT_GROUP_NAME \
+        --s3-location bucket=$BUCKET_NAME,bundleType=zip,key=$PROJECT_NAME/release.zip
 
 #        direct ec2 deploy
 #    - name: copy file via ssh key
