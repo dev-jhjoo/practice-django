@@ -5,6 +5,7 @@ files:
   - source: /
     destination: /home/ec2-user/practice-django/
     overwrite: yes
+file_exists_behavior: OVERWRITE
 # EC2/온프레미스 배포용으로만 'permissions' 섹션을 사용합니다. AWS Lambda 또는 Amazon ECS 배포에는 사용되지 않습니다
 permissions:
   - object: /home/ec2-user/
