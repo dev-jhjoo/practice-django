@@ -12,8 +12,8 @@ else
 fi
 
 echo "> pip3 install -r ./practice-django/requirements.txt"
-pip3 install -r ./practice-django/requirements.txt
+pip3 install -r ./requirements.txt
 sleep 2
 
 echo "> run server"
-nohup python3 ./practice-django/manage.py runserver 0.0.0.0:8000 >/dev/null 2>&1 &
+nohup python3 ./manage.py runserver 0.0.0.0:8000 >/dev/null 2>&1 &
