@@ -14,38 +14,58 @@ jobs:
 
     steps:
     - uses: actions/checkout@v3
+
     - name: Set up Python ${{ matrix.python-version }}
       uses: actions/setup-python@v3
       with:
         python-version: ${{ matrix.python-version }}
+
     - name: Install Dependencies
       run: |
         python -m pip install --upgrade pip
         pip install -r requirements.txt
+
     - name: Run Tests
       run: |
         python manage.py test
+
     - name: Zip Release
       uses: TheDoctor0/zip-release@0.7.1
       with:
-        filename: release.zip
+        filename: $GITHUB_SHA.zip
         path: .
         directory: .
         type: zip
-    - name: copy file via ssh key
-      uses: appleboy/scp-action@v0.1.4
+
+    # Setting for S3 iam
+    - name: Configure AWS credentials
+      uses: aws-actions/configure-aws-credentials@v1
       with:
-        host: ${{ secrets.EC2_HOST }}
-        username: ${{ secrets.USERNAME }}
-        port: ${{ secrets.EC2_PORT }}
-        key: ${{ secrets.JH_PEM }}
-        source: "release.zip"
-        target: /home/ec2-user
-    - name: ssh command
-      uses: appleboy/ssh-action@v0.1.10
-      with:
-        host: ${{ secrets.EC2_HOST }}
-        username: ${{ secrets.USERNAME }}
-        key: ${{ secrets.JH_PEM }}
-        port: ${{ secrets.EC2_PORT }}
-        script: /home/ec2-user/deploy.sh
+        aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+        aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+        aws-region: ap-northeast-2
+    # Upload to s3
+    - name: Upload to S3
+      run: aws s3 cp --region ap-northeast-2 ./$GITHUB_SHA.zip s3://jhjoobucket/practice-django/$GITHUB_SHA.zip
+    # CodeDeploy execute
+#    - name: Code Deploy
+#      run: aws deploy create-deployment --application-name $CODE_DEPLOY_APP_NAME --deployment-config-name CodeDeployDefault.OneAtATime --deployment-group-name $DEPLOYMENT_GROUP_NAME --s3-location bucket=$BUCKET_NAME,bundleType=zip,key=$PROJECT_NAME/$GITHUB_SHA.zip
+
+#        direct ec2 deploy
+#    - name: copy file via ssh key
+#      uses: appleboy/scp-action@v0.1.4
+#      with:
+#        host: ${{ secrets.EC2_HOST }}
+#        username: ${{ secrets.USERNAME }}
+#        port: ${{ secrets.EC2_PORT }}
+#        key: ${{ secrets.JH_PEM }}
+#        source: "release.zip"
+#        target: /home/ec2-user
+#    - name: ssh command
+#      uses: appleboy/ssh-action@v0.1.10
+#      with:
+#        host: ${{ secrets.EC2_HOST }}
+#        username: ${{ secrets.USERNAME }}
+#        key: ${{ secrets.JH_PEM }}
+#        port: ${{ secrets.EC2_PORT }}
+#        script: /home/ec2-user/deploy.sh
