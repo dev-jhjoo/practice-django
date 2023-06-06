@@ -37,6 +37,12 @@ jobs:
         directory: .
         type: zip
 
+    - name: pwd
+      run: pwd
+
+    - name: ls
+      run: ls
+
     # Setting for S3 iam
     - name: Configure AWS credentials
       uses: aws-actions/configure-aws-credentials@v1
