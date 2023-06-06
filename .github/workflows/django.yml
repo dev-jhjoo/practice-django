@@ -32,7 +32,7 @@ jobs:
     - name: Zip Release
       uses: TheDoctor0/zip-release@0.7.1
       with:
-        filename: $GITHUB_SHA.zip
+        filename: ${{ github.sha }}.zip
         path: .
         directory: .
         type: zip
