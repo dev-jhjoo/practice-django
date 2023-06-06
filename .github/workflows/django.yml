@@ -4,6 +4,12 @@ on:
   push:
     branches: [ "main" ]
 
+env:
+  PROJECT_NAME: practice-django
+  BUCKET_NAME: jhjoobucket
+  CODE_DEPLOY_APPLICATION_NAME: python_ec2_codedeploy_jhjoo
+  DEPLOYMENT_GROUP_NAME: pythonec2byjhjoo
+
 jobs:
   build:
 
@@ -50,12 +56,18 @@ jobs:
         aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
         aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
         aws-region: ap-northeast-2
-    # Upload to s3
+
+    # Upload to s3 release
     - name: Upload to S3
-      run: aws s3 cp --region ap-northeast-2 $GITHUB_SHA.zip s3://jhjoobucket/practice-django/$GITHUB_SHA.zip
+      run: aws s3 cp --region ap-northeast-2 $GITHUB_SHA.zip s3://$BUCKET_NAME/$PROJECT_NAME/release.zip
+
+    # Upload to s3 archive
+    - name: Upload to S3
+      run: aws s3 cp --region ap-northeast-2 $GITHUB_SHA.zip s3://$BUCKET_NAME/$PROJECT_NAME/archive/$GITHUB_SHA.zip
+
     # CodeDeploy execute
 #    - name: Code Deploy
-#      run: aws deploy create-deployment --application-name $CODE_DEPLOY_APP_NAME --deployment-config-name CodeDeployDefault.OneAtATime --deployment-group-name $DEPLOYMENT_GROUP_NAME --s3-location bucket=$BUCKET_NAME,bundleType=zip,key=$PROJECT_NAME/$GITHUB_SHA.zip
+#      run: aws deploy create-deployment --application-name $CODE_DEPLOY_APPLICATION_NAME --deployment-config-name CodeDeployDefault.OneAtATime --deployment-group-name $DEPLOYMENT_GROUP_NAME --s3-location bucket=$BUCKET_NAME,bundleType=zip,key=$PROJECT_NAME/$GITHUB_SHA.zip
 
 #        direct ec2 deploy
 #    - name: copy file via ssh key
