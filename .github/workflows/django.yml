@@ -72,7 +72,8 @@ jobs:
         --application-name $CODE_DEPLOY_APPLICATION_NAME \
         --deployment-config-name CodeDeployDefault.OneAtATime \
         --deployment-group-name $DEPLOYMENT_GROUP_NAME \
-        --s3-location bucket=$BUCKET_NAME,bundleType=zip,key=$PROJECT_NAME/release.zip
+        --s3-location bucket=$BUCKET_NAME,bundleType=zip,key=$PROJECT_NAME/release.zip \
+        --auto-rollback-configuration enabled=true,events=DEPLOYMENT_FAILURE
 
 #        direct ec2 deploy
 #    - name: copy file via ssh key
