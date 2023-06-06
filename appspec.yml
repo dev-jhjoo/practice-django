@@ -13,4 +13,4 @@ permissions:
     group: ec2-user
 hooks:
   AfterInstall:
-    - location: /home/ec2-user/deploy.sh
+    - location: /codedeploy.sh
