@@ -1,13 +1,15 @@
-#version: 0.0
-#os: linux
-#
-#files:
-#  - source: /
-#    destination: /home/ec2-user/practice-django
-#permissions:
-#  - object: /home/ec2-user/practice-django/
-#    owner: ec2-user
-#    group: ec2-user
-#hooks:
-#  AfterInstall:
-#    - location: scripts/
+version: 0.0
+os: linux
+
+files:
+  - source: /practice-django/release.zip
+    destination: /home/ec2-user/practice-django/
+    overwrite: yes
+# EC2/온프레미스 배포용으로만 'permissions' 섹션을 사용합니다. AWS Lambda 또는 Amazon ECS 배포에는 사용되지 않습니다
+permissions:
+  - object: /home/ec2-user/
+    owner: ec2-user
+    group: ec2-user
+hooks:
+  AfterInstall:
+    - location: /home/ec2-user/deploy.sh
